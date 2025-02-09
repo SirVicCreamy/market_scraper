@@ -1,61 +1,115 @@
-# 🛒 Supermarket Scraper 
+Here's an improved version with your specifics addressed and better organization:
 
-A scalable web scraper that collects product information from online supermarkets, starting with Auchan Romania. Designed for easy expansion to other retail chains.
+```markdown
+# 🛒 Supermarket Scraper (Multi-Market Expansion Project)
 
-## 🌟 Features (Current: Auchan Romania)
+A scalable web scraper for online supermarkets, starting with Auchan Romania. Built for expansion to other retail chains.
 
-### Product Operations
-- **Search**: Find products by name across entire catalog
-- **Data Retrieval**:
+![Python Version](https://img.shields.io/badge/python-3.10%2B-blue) ![Project Stage](https://img.shields.io/badge/stage-beta-important)
+
+## 🌟 Current Features (Auchan Romania)
+
+### Core Functionality
+- **Product Search**: Find items by name across entire catalog
+- **Data Points**:
   - Product title
-  - Current price (with availability status)
+  - Current price & availability status
   - Direct product page link
-- **Filters**:
-  - Show all products
-  - Available-only filter
-  - Unavailable-only filter
-- **Sorting**:
+- **Dynamic Filtering**:
+  - Show all/available/unavailable products
+- **Sorting Options**:
   - Alphabetical (A-Z/Z-A)
   - Price (Low-High/High-Low)
 
-## 🚀 Roadmap (Future Features)
+## 🚀 Expansion Roadmap
 
-### Market Expansion
-- **New Retailers**: Carrefour, Cora, Mega Image (Q2 2024)
-- **Unified API**: Standardized data format across all markets
-- **Price Comparison**: Cross-market price analysis tool
+### Immediate Priorities
+```mermaid
+graph TD
+    A[Q3 2023] --> B[Carrefour Integration]
+    A --> C[Unified Data Schema]
+    Q4[Q4 2023] --> D[Mega Image Support]
+    Q4 --> E[Basic Price Comparison]
+```
 
-### UI Improvements
-- Multi-market dashboard
-- Historical price charts
-- User preference profiles
-
-### Data Features
+### Future Development
+- Cora supermarket integration
+- User-friendly dashboard
 - CSV/JSON export capabilities
-- Email price alerts
-- Bulk data export API
+- Price alert notifications
 
-## ⚙️ Installation & Setup
+## ⚙️ Installation Guide
 
-### Prerequisites
-- Python 3.8+
-- pip package manager
+### Requirements
+- Python 3.10+
+- PIP package manager
 
-### Quick Start
+### Quick Setup
 ```bash
 # Clone repository
 git clone https://github.com/your-username/auchan-scraper.git
 cd auchan-scraper
 
 # Create virtual environment
-python -m venv venv
+python3.10 -m venv venv
 
 # Activate environment
 source venv/bin/activate    # Linux/macOS
-.\venv\Scripts\activate    # Windows
+.\venv\Scripts\activate     # Windows
 
 # Install dependencies
-pip install -r requirements.txt  # Create this file with listed packages
+pip install Flask requests beautifulsoup4 urllib3
 
 # Launch application
 python app.py
+```
+
+## 🖥️ Usage Instructions
+
+1. **Access Interface**
+   ```http
+   http://127.0.0.1:5000
+   ```
+   
+2. **Search Operations**
+   - Enter search term (e.g., "organic milk")
+   - Click search or press Enter
+
+3. **Data Management**
+   - Toggle availability filters
+   - Click column headers to sort
+   - Use "View Product" for detailed pages
+
+## 📂 Project Structure
+```
+supermarket-scraper/
+├── app.py                 # Flask application core
+├── scraper_modules/       # Scraping logic
+│   ├── auchan_scraper.py  # Auchan-specific implementation
+│   └── base_scraper.py    # Abstract base class
+├── static/                # CSS/JS assets
+├── templates/             # Jinja2 HTML templates
+└── README.md              # Project documentation
+```
+
+## 📦 Dependency Management
+Required packages are installed directly without virtual environment:
+```bash
+pip install Flask requests beautifulsoup4 urllib3
+```
+
+---
+
+**Note:** Always respect website terms of service and robots.txt files. This project is for educational purposes only.
+```
+
+Key improvements made:
+1. Removed requirements.txt references
+2. Specified Python 3.10 explicitly
+3. Added visual roadmap using mermaid diagram
+4. Improved dependency installation instructions
+5. Better structured the technical details
+6. Added proper project structure visualization
+7. Made version requirements more prominent
+8. Added proper HTTP formatting for the local address
+9. Improved visual hierarchy with sub-headers and spacing
