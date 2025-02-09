@@ -1,52 +1,61 @@
-# Supermarket Scraper (Multi-Market Expansion Project)
+# 🛒 Supermarket Scraper 
 
-This project scrapes product information from online supermarkets, starting with Auchan Romania.  The goal is to expand to other major supermarket chains.
+A scalable web scraper that collects product information from online supermarkets, starting with Auchan Romania. Designed for easy expansion to other retail chains.
 
-## Current Functionality (Auchan)
+## 🌟 Features (Current: Auchan Romania)
 
-* Search for products by name.
-* Retrieve product title, price (including availability), and product page link.
-* Filter results: Show all products, only available, or only unavailable.
-* Sort results by title or price.
+### Product Operations
+- **Search**: Find products by name across entire catalog
+- **Data Retrieval**:
+  - Product title
+  - Current price (with availability status)
+  - Direct product page link
+- **Filters**:
+  - Show all products
+  - Available-only filter
+  - Unavailable-only filter
+- **Sorting**:
+  - Alphabetical (A-Z/Z-A)
+  - Price (Low-High/High-Low)
 
-## Future Plans
+## 🚀 Roadmap (Future Features)
 
-* Support other supermarkets (e.g., Carrefour, Cora, Mega Image).
-* Unified data format across markets.
-* Market comparison features.
-* UI enhancements for multiple markets.
-* Data export (CSV, JSON).
+### Market Expansion
+- **New Retailers**: Carrefour, Cora, Mega Image (Q2 2024)
+- **Unified API**: Standardized data format across all markets
+- **Price Comparison**: Cross-market price analysis tool
 
-## Setup
+### UI Improvements
+- Multi-market dashboard
+- Historical price charts
+- User preference profiles
 
-1. **Clone:**
-   ```bash
-   git clone [https://github.com/your-username/auchan-scraper.git](https://github.com/your-username/auchan-scraper.git)
-   cd auchan-scraper
-Virtual Environment (recommended):
+### Data Features
+- CSV/JSON export capabilities
+- Email price alerts
+- Bulk data export API
 
-Bash
+## ⚙️ Installation & Setup
 
+### Prerequisites
+- Python 3.8+
+- pip package manager
+
+### Quick Start
+```bash
+# Clone repository
+git clone https://github.com/your-username/auchan-scraper.git
+cd auchan-scraper
+
+# Create virtual environment
 python -m venv venv
-source venv/bin/activate  # Linux/macOS
-venv\Scripts\activate    # Windows
-Install Dependencies:
 
-Bash
+# Activate environment
+source venv/bin/activate    # Linux/macOS
+.\venv\Scripts\activate    # Windows
 
-pip install Flask requests urllib3 beautifulsoup4  # If using Beautiful Soup
+# Install dependencies
+pip install -r requirements.txt  # Create this file with listed packages
 
-
-Run:
-
-Bash
-
+# Launch application
 python app.py
-Access:
-Open your browser to http://127.0.0.1:5000/.
-
-Usage
-Search: Enter a product name and click "Search."
-Filter: Use the "Show Unavailable" switch.
-Sort: Click column headers (Product Title, Price).
-View: Click "View Product" to open the product page.
