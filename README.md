@@ -1,6 +1,6 @@
 # Supermarket Scraper (Multi-Market Expansion)
 
-A web scraper for online supermarkets, starting with Auchan Romania. Built with Python 3.10.
+A web scraper for online supermarkets, starting with Auchan Romania. Built with Python 3.10+.
 
 ## Features (Auchan Romania)
 - **Search**: Find products by name
@@ -17,20 +17,16 @@ A web scraper for online supermarkets, starting with Auchan Romania. Built with 
 ## Setup
 
 1. Clone the repo
-Install dependencies:
-
-bash
-Copy
+2. Install dependencies:
+```
 pip install Flask requests beautifulsoup4 urllib3
+```
 Run the app:
-
-bash
-Copy
-python app.py
+```python app.py```
 Open your browser:
-
-Copy
+```
 http://127.0.0.1:5000
+```
 Usage
 Search: Enter a product name and click "Search."
 
