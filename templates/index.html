@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auchan Supermarket Scraper</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <style>
+        /* ... (Your CSS styles - same as before, including the switch styles) ... */
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 960px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            color: #2c3e50;
+        }
+
+        form {
+            display: flex;
+            flex-wrap: wrap; /* Allow form elements to wrap */
+            align-items: center; /* Vertically align items */
+            margin-bottom: 20px;
+        }
+
+        input[type="text"] {
+            flex-grow: 1;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px 0 0 4px;
+            font-size: 16px;
+            margin-right: 10px; /* Add some spacing */
+        }
+
+        input[type="submit"] {
+            background-color: #3498db;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s;
+            margin-right: 10px; /* Add some spacing */
+        }
+
+        input[type="submit"]:hover {
+            background-color: #2980b9;
+        }
+
+        label {
+            margin-right: 5px; /* Add spacing between label and checkbox */
+        }
+
+        .search-results {
+            margin-bottom: 20px;
+            color: #777;
+        }
+
+        .search-count {
+            font-weight: 500;
+            color: #3498db;
+        }
+
+        .error-message {
+            color: #c0392b;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+            background-color: #fff;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            color: #555;
+            font-weight: 500;
+            cursor: pointer;
+        }
+
+        th:hover {
+            background-color: #e6e6e6;
+        }
+
+        tbody tr:hover {
+            background-color: #f9f9f9;
+        }
+
+        .product-link {
+            color: #3498db;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .product-link:hover {
+            color: #2980b9;
+        }
+
+        .no-results {
+            text-align: center;
+            color: #777;
+            font-style: italic;
+            margin-top: 20px;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            form {
+                flex-direction: column; /* Stack form elements vertically */
+                align-items: flex-start; /* Align items to the left */
+            }
+
+            input[type="text"],
+            input[type="submit"] {
+                width: 100%; /* Make input fields take full width */
+                margin: 5px 0; /* Add some vertical margin */
+                border-radius: 4px; /* Consistent border radius */
+            }
+            label, input[type="checkbox"]{
+                margin: 5px 0;
+            }
+        }
+                /* The switch - the box around the slider */
+        .switch {
+          position: relative;
+          display: inline-block;
+          width: 60px;
+          height: 34px;
+        }
+
+        /* Hide default checkbox */
+        .switch input { 
+          opacity: 0;
+          width: 0;
+          height: 0;
+        }
+
+        /* The slider */
+        .slider {
+          position: absolute;
+          cursor: pointer;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background-color: #ccc;
+          -webkit-transition: .4s;
+          transition: .4s;
+          border-radius: 34px;
+        }
+
+        .slider:before {
+          position: absolute;
+          content: "";
+          height: 26px;
+          width: 26px;
+          left: 4px;
+          bottom: 4px;
+          background-color: white;
+          -webkit-transition: .4s;
+          transition: .4s;
+          border-radius: 50%;
+        }
+
+        input:checked + .slider {
+          background-color: #2196F3;
+        }
+
+        input:focus + .slider {
+          box-shadow: 0 0 1px #2196F3;
+        }
+
+        input:checked + .slider:before {
+          -webkit-transform: translateX(26px);
+          -ms-transform: translateX(26px);
+          transform: translateX(26px);
+        }
+
+        .filter-options {
+            display: flex;
+            align-items: center; /* Align items vertically */
+            margin-bottom: 10px; /* Add some spacing below */
+        }
+
+        .filter-label {
+            margin-left: 10px; /* Add spacing between switch and label */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Auchan Supermarket Scraper</h1>
+        </header>
+
+        <form method="post" action="/">
+            <input type="text" name="query" placeholder="Enter product name" value="{{ query }}" required>
+            <input type="submit" value="Search">
+
+            <div class="filter-options">  <label class="switch">
+                    <input type="checkbox" id="show-unavailable-switch" name="show_unavailable" {% if show_unavailable %}checked{% endif %}>
+                    <span class="slider round"></span>
+                </label>
+                <span class="filter-label">Show Unavailable</span>
+            </div>
+        </form>
+
+        {% if query %}
+            <div class="search-results">
+                Found <span class="search-count">0 / 0 results</span> results for "{{ query }}"
+            </div>
+        {% endif %}
+
+        {% if error %}
+            <p class="error-message">{{ error }}</p>
+        {% endif %}
+        <table>
+            <thead>
+                <tr>
+                    <th onclick="sortTable(0)" class="sort-icon">Product Title</th>
+                    <th onclick="sortTable(1)" class="sort-icon">Price</th>
+                    <th>Link</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for product in results %}
+                    <tr>
+                        <td>{{ product.title }}</td>
+                        <td>{{ product.price_display }}</td>
+                        <td><a href="{{ product.url }}" target="_blank" class="product-link">View Product</a></td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <input type="hidden" id="total-results" value="{{ total_results }}">
+        <input type="hidden" id="show-unavailable" value="{{ show_unavailable }}">
+
+        {% if not results and query and not error %}
+            <p class="no-results">No products found for "{{ query }}".</p>
+        {% endif %}
+    </div>
+
+    <script>
+        let totalLoadedProducts = 0;
+        let totalScrapedProducts = 0;
+
+        function sortTable(n) {
+            let table = document.querySelector("table");
+            if (!table) return;
+
+            let rows = Array.from(table.rows).slice(1);
+            let direction = table.getAttribute("data-sort-direction") === "asc" ? -1 : 1;
+
+            if (table.getAttribute("data-sort-column") === n.toString()) {
+                direction = -direction;
+            }
+
+            rows.sort((a, b) => {
+                let x = a.cells[n].textContent.trim();
+                let y = b.cells[n].textContent.trim();
+
+                if (n === 1) { // Price column - Handle "Indisponibil"
+                    let priceX = parseFloat(x.replace(" RON", "").replace("Indisponibil", "0").replace(",","."));
+                    let priceY = parseFloat(y.replace(" RON", "").replace("Indisponibil", "0").replace(",","."));
+
+                    if (isNaN(priceX)) priceX = -Infinity; // Unavailable sorts to the bottom
+                    if (isNaN(priceY)) priceY = -Infinity;
+
+                    x = priceX;
+                    y = priceY;
+                }
+
+                return direction * (x < y ? -1 : (x > y ? 1 : 0));
+            });
+
+            let headers = table.getElementsByTagName("th");
+            for (let i = 0; i < headers.length; i++) {
+                headers[i].classList.remove("sort-asc", "sort-desc");
+            }
+
+            if (direction === 1) {
+                table.setAttribute("data-sort-direction", "asc");
+                headers[n].classList.add("sort-asc");
+            } else {
+                table.setAttribute("data-sort-direction", "desc");
+                headers[n].classList.add("sort-desc");
+            }
+            table.setAttribute("data-sort-column", n);
+
+            table.querySelector("tbody").innerHTML = ""; // Clear existing rows
+            rows.forEach(row => table.querySelector("tbody").appendChild(row)); // Append sorted rows
+        }
+
+
+        function updateProductCount(total) {
+            const countElement = document.querySelector('.search-count');
+            countElement.textContent = `${totalLoadedProducts} / ${total} results`;
+        }
+
+        window.addEventListener('DOMContentLoaded', (event) => {
+    const initialTotal = parseInt(document.getElementById('total-results').value) || 0;
+    totalScrapedProducts = initialTotal;
+
+    function updateProductCount(total) {
+        const countElement = document.querySelector('.search-count');
+        countElement.textContent = `${totalLoadedProducts} / ${total} results`;
+    }
+
+    updateProductCount(initialTotal); // Call it initially
+
+    const showUnavailableSwitch = document.getElementById('show-unavailable-switch');
+    const productRows = document.querySelectorAll('table tbody tr');
+
+    // Initial filtering on page load:
+    const showUnavailable = showUnavailableSwitch.checked;
+    productRows.forEach(row => {
+        const priceCell = row.cells[1];
+        const priceText = priceCell.textContent.trim();
+        const price = parseFloat(priceText.replace(" RON", "").replace("Indisponibil", "0").replace(",","."));
+        const isUnavailable = isNaN(price) || price === 0;
+
+        row.style.display = showUnavailable ? (isUnavailable ? '' : 'none') : (isUnavailable ? 'none' : ''); // Corrected logic
+    });
+
+    showUnavailableSwitch.addEventListener('change', () => {
+        const showUnavailable = showUnavailableSwitch.checked;
+
+        productRows.forEach(row => {
+            const priceCell = row.cells[1];
+            const priceText = priceCell.textContent.trim();
+            const price = parseFloat(priceText.replace(" RON", "").replace("Indisponibil", "0").replace(",","."));
+            const isUnavailable = isNaN(price) || price === 0;
+
+            row.style.display = showUnavailable ? (isUnavailable ? '' : 'none') : (isUnavailable ? 'none' : ''); // Corrected logic
+        });
+
+        document.getElementById('show-unavailable').value = showUnavailable;
+    });
+});
+
+    </script>
+
+</body>
+</html>
